@@ -10,7 +10,7 @@ import com.ibatis.sqlmap.client.SqlMapClient;
 import comm.IbatisUtil;
 
 public class B_C_DAO {
-
+	//
 	public void NewComment(B_C_VO bc) throws SQLException {
 		
 		SqlMapClient sqlmap = IbatisUtil.getSqlmap();
