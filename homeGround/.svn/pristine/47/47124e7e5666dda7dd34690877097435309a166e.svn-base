@@ -1,0 +1,32 @@
+<%@page import="java.util.Date"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="board.BoardVO" %>
+<%@ page import="board.BoardDAO" %>
+
+<%
+	request.setCharacterEncoding("utf-8");
+	
+	String title = request.getParameter("title");
+	String contents = request.getParameter("contents");
+
+	BoardVO vo = new BoardVO();
+	vo.setTitle(title);
+	vo.setContents(contents);
+	vo.setHate(0);
+	vo.setLike(0);
+	vo.setRegdate(new Date());
+	vo.setMember(0);
+	vo.setPhoto("photo.jpg");
+	vo.setTeam(0);
+	vo.setNo(0);
+	
+	BoardDAO dao = new BoardDAO();
+	dao.addNewContent(vo);
+	
+	response.sendRedirect("boardList.jsp");
+%>
+	
+	
+
+    

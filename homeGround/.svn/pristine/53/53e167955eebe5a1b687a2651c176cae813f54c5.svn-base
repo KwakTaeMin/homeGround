@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMapConfig      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+
+  <!-- database 연결 설정 -->
+  <transactionManager type="JDBC" commitRequired="false">
+    <dataSource type="SIMPLE">
+      <property name="JDBC.Driver" value="oracle.jdbc.OracleDriver"/>
+      <property name="JDBC.ConnectionURL" value="jdbc:oracle:thin:@192.168.0.23:1521:xe"/>
+      <property name="JDBC.Username" value="hr"/>
+      <property name="JDBC.Password" value="zxcv1234"/>
+    </dataSource>
+  </transactionManager>
+
+  <!-- SQL이 정의된 XML파일의 경로를 등록 -->
+  <sqlMap resource="board/board.xml" />
+  <sqlMap resource="member/member.xml" />
+  <sqlMap resource="notice/notice.xml" />
+  <sqlMap resource="notice/noticeComment.xml" />
+  <sqlMap resource="result/result.xml" />
+  <sqlMap resource="team/team.xml" />
+
+</sqlMapConfig>

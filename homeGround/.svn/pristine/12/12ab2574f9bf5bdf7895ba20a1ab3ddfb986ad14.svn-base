@@ -1,0 +1,129 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	String addid = request.getParameter("addid");
+	String addemail = request.getParameter("addemail");
+	String addpw = request.getParameter("addpw");
+%>    
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Insert title here</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css" media="all" />
+		<style type="text/css">
+			#jointb {
+				width: 600px;
+			}
+			#jointb tr {
+				height: 40px;
+			}
+			#jointb th {
+				text-align: center;
+			}
+		</style>
+		<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+   		<!-- use jssor.slider.mini.js (40KB) instead for release -->
+    	<!-- jssor.slider.mini.js = (jssor.js + jssor.slider.js) -->
+	    <script type="text/javascript" src="js/jssor.js"></script>
+	    <script type="text/javascript" src="js/jssor.slider.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	    <script type="text/javascript">
+	    
+	    </script>
+	</head>
+	<body>
+		<h3>회원가입</h3>
+		<form action="adduser.jsp" method="post">
+			<table id='jointb' border='1'>
+				<colgroup>
+					<col width="20%" />
+					<col width="*" />
+				</colgroup>
+				<tr>
+					<th>아이디</th>
+					<td>
+						<input type='text' name='addid' id='addid' />
+						<input type="button" name="idChkBtn" value="중복확인" />
+					</td>
+				</tr>
+				<tr>
+					<th>비밀번호</th>
+					<td>
+						<input type='password' name='addpw1' id='addpw1' />
+					</td>
+				</tr>
+				<tr>
+					<th>비밀번호 확인</th>
+					<td>
+						<input type='password' name='addpw2' id='addpw2' />
+					</td>
+				</tr>
+				<tr>
+					<th>이름</th>
+					<td><input type='text' name='addname' id='addname' /></td>
+				</tr>
+				<tr>
+					<th>지역</th>
+					<td>
+						<select id='addarea'>
+							<option value='서울'>서울시</option>
+							<option value='경기도'>경기도</option>
+							<option value='강원도'>강원도</option>
+							<option value='전라도'>전라도</option>
+							<option value='경상도'>경상도</option>
+							<option value='충청도'>충청도</option>
+							<option value='제주도'>제주도</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>나이</th>
+					<td><input type='text' name='addage' id='addage' /></td>
+				</tr>
+				<tr>
+					<th>포지션</th>
+					<td>
+						<select id='addposition'>
+							<option value='투수'>투수</option>
+							<option value='포수'>포수</option>
+							<option value='1루수'>1루수</option>
+							<option value='2루수'>2루수</option>
+							<option value='3루수'>3루수</option>
+							<option value='유격수'>유격수</option>
+							<option value='좌익수'>좌익수</option>
+							<option value='중견수'>중견수</option>
+							<option value='우익수'>우익수</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>핸드폰</th>
+					<td>
+					</td>
+				</tr>
+
+				<tr>
+					<th>이메일</th>
+					<td></td>
+				</tr>
+			</table>
+			<p style='text-align: right; width: 600px;'>
+				<input type='submit' value='회원가입' />
+			</p>
+		</form>
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="RESULT">
+	<select id="getAllResults" resultClass="result.ResultVO">
+		select 
+			game_no			as gameNo,
+			myteam			as myTeamNo,	
+			my_runs			as myRuns,
+			my_hits			as myHits,
+			my_error		as myError,
+			my_balls		as myBalls,
+			rivalteam		as rivalTeamNo,
+			rival_runs		as rivalRuns,
+			rival_hits		as rivalHits,
+			rival_error		as rivalError,
+			rival_balls		as rivalBalls,
+			game_date		as gameDate
+		from hg_gameresult	
+	</select>
+	
+	<select id="getResultByNo" parameterClass="int" resultClass="result.ResultVO">
+		select 
+			game_no			as gameNo,
+			myteam			as myTeamNo,	
+			my_runs			as myRuns,
+			my_hits			as myHits,
+			my_error		as myError,
+			my_balls		as myBalls,
+			rivalteam		as rivalTeamNo,
+			rival_runs		as rivalRuns,
+			rival_hits		as rivalHits,
+			rival_error		as rivalError,
+			rival_balls		as rivalBalls,
+			game_date		as gameDate
+		from hg_gameresult
+		where game_no = #value#
+	</select>
+	
+	<select id="getResultTeamNoByName" parameterClass="string" resultClass="int">
+		select 
+			team_no
+		from hg_team
+		where team_name = #value#	
+	</select>
+	
+	
+ 	<select id="getTeamNameByNo" parameterClass="int" resultClass="string">
+		select 
+			team_name
+		from hg_team
+		where team_no = #value#
+	</select> 
+	
+	<insert id="saveResult" parameterClass="result.ResultVO">
+		insert into hg_gameresult(game_no, myteam, my_runs, my_hits, my_error, my_balls, rivalteam, rival_runs, rival_hits, rival_error, rival_balls, game_date)
+		values(GAME_NO_SEQ.nextval, #myTeamNo#, #myRuns#, #myHits#, #myError#, #myBalls#, #rivalTeamNo#, #rivalRuns#, #rivalHits#, #rivalError#, #rivalBalls#, sysdate)
+	</insert>
+	
+	<select id="getTotal" parameterClass="int" resultClass="int">
+		select count(*) cnt
+		from hg_gameresult
+		where myteam = #value#
+		and delete_y_n = 'N' 
+	</select>
+	
+	<select id="getResultByRange" parameterClass="hashmap" resultClass="result.ResultVO">
+		<![CDATA[
+		select 
+			game_no			as gameNo,
+			myteam			as myTeamNo,	
+			my_runs			as myRuns,
+			my_hits			as myHits,
+			my_error		as myError,
+			my_balls		as myBalls,
+			rivalteam		as rivalTeamNo,
+			rival_runs		as rivalRuns,
+			rival_hits		as rivalHits,
+			rival_error		as rivalError,
+			rival_balls		as rivalBalls,
+			game_date		as gameDate
+		from (select row_number() over(order by game_no desc) as num, game_no,
+			  myteam, my_runs, my_hits, my_error, my_balls, rivalteam,
+			  rival_runs, rival_hits, rival_error, rival_balls, game_date
+			  from hg_gameresult where delete_y_n = 'N')
+		where num >= #start# and num <= #end#
+		and myteam = #teamNo#		
+		]]>
+		
+	</select>
+	
+	<update id="deleteResultByNo" parameterClass="int">
+		update hg_gameresult
+		set 
+			delete_y_n = 'Y'
+		where game_no = #gameNo#	
+	</update>
+	
+	<insert id="saveReply" parameterClass="result.ResultReplyVO">
+		insert into hg_gameresult_comment(g_c_no, g_c_contents, member_no, team_no, game_no, g_c_date)
+		values(g_c_no_seq.nextval, #contents#, #memNo#, #teamNo#, #gameNo#, sysdate)
+	</insert>
+	
+	<!-- 경기결과에 달려있는 댓글들 읽어오기 -->
+	<select id="getReplyBygameNo" parameterClass="int" resultClass="result.ResultReplyVO">
+		select
+			gr.g_c_no			as commentNo,
+			gr.g_c_contents		as contents,
+			gr.team_no			as teamNo,
+			gr.game_no			as gameNo,
+			gr.member_no		as memNo,
+			m.member_id			as memId,
+			gr.g_c_date			as gameDate
+		from hg_gameresult_comment gr, hg_member m
+		where gr.member_no = m.member_no
+		and gr.game_no = #value#
+		order by gr.g_c_no desc 
+	</select>
+	
+	<delete id="deleteReplyByNo" parameterClass="int">
+		delete from hg_gameresult_comment
+		where g_c_no = #value#
+	</delete>
+	
+	<!-- 경기결과 디테일 업데이트 하기 -->
+	<update id="updateResult" parameterClass="hashmap">
+		update hg_gameresult
+		set
+			game_no = #no#, 
+			my_runs = #myRuns#, 
+			my_hits = #myHits#, 
+			my_error = #myError#, 
+			my_balls = #myBalls#, 
+			rival_runs = #rivalRuns#, 
+			rival_hits = #rivalHits#, 
+			rival_error = #rivalError#, 
+			rival_balls = #rivalBalls#
+		where game_no = #no#
+	</update>
+	
+	<!-- 상대팀 이름 읽어오기 -->
+	<select id="getAllTeamName" parameterClass="int" resultClass="string">
+		select 
+			team_name
+		from hg_team
+		where team_no != #value#	
+	</select>
+	
+	
+	
+</sqlMap>

@@ -1,0 +1,17 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="board.BoardVO" %>
+<%@ page import="board.BoardDAO" %>
+
+<% 
+	String value = request.getParameter("no");
+
+	BoardDAO dao = BoardDAO.getInstance();
+	dao.removeboard(Integer.parseInt(value));
+	
+	response.sendRedirect("boardList.jsp");
+	
+	
+
+	
+%>

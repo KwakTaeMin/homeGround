@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BOARD">
+
+	<select id="getAllBoards"  resultClass="board.BoardVO">
+		select 
+			board_no		as no,
+			board_title		as title,
+			board_contents	as contents,
+			member_no		as member,
+			team_no			as team,
+			board_photo		as photo,
+			board_like		as "like",
+			board_hate		as hate,
+			board_date		as regdate
+		from hg_board
+		order by board_no asc
+	</select>
+	
+	<insert id="addNewContent" parameterClass="board.BoardVO">
+		insert into hg_board
+		(board_no, board_title, board_contents, member_no, team_no, board_photo, board_like, board_hate, board_date)
+		values(board_no_seq.nextval, #title#, #contents#, #member#, #team#, #photo#, #like#, #hate#, #regdate#)
+	</insert>
+	
+	<select id="getContentView" parameterClass="int" resultClass="board.BoardVO">
+		select
+			board_no		as no,
+			board_title		as title,
+			board_contents	as contents,
+			member_no		as member,
+			team_no			as team,
+			board_photo		as photo,
+			board_like		as "like",
+			board_hate		as hate,
+			board_date		as regdate
+		from hg_board
+		where board_no = #value#
+	</select>
+	
+	<delete id="removeboard" parameterClass="int">
+		delete
+		from hg_board
+		where board_no = #value#
+	</delete>
+	
+	<update id="modifyboard" parameterClass="board.BoardVO">
+		update hg_board
+			set
+				board_title		= #title#,
+				board_contents	= #contents#
+		where board_no = #no#
+	</update>
+	
+	<update id="addlike" parameterClass="int" >
+		update hg_board
+			set
+				board_like	= board_like +1
+		where board_no = #value#
+	</update>
+	
+	<update id="addhate" parameterClass="int">
+		update hg_board
+			set
+				board_hate	= board_hate +1
+		where board_no = #value#	
+	</update>
+	
+	
+	
+	
+	
+</sqlMap>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BOARD">
+
+	<select id="getAllBoards"  resultClass="board.BoardVO">
+		select 
+			board_no		as no,
+			board_title		as title,
+			board_contents	as contents,
+			member_no		as member,
+			team_no			as team,
+			board_photo		as photo,
+			board_like		as "like",
+			board_hate		as hate,
+			board_date		as regdate
+		from hg_board
+		order by board_no desc
+	</select>
+	
+	<insert id="addNewContent" parameterClass="board.BoardVO">
+		insert into hg_board
+		(board_no, board_title, board_contents, member_no, team_no, board_photo, board_like, board_hate, board_date)
+		values(board_no_seq.nextval, #title#, #contents#, #member#, #team#, #photo#, #like#, #hate#, #regdate#)
+	</insert>
+	
+	<select id="getContentView" parameterClass="int" resultClass="board.BoardVO">
+		select
+			c.board_no		as no,
+			c.board_title		as title,
+			c.board_contents	as contents,
+			c.member_no		as member,
+			c.team_no			as team,
+			c.board_photo		as photo,
+			c.board_like		as "like",
+			c.board_hate		as hate,
+			c.board_date		as regdate,
+			m.member_name		as memberName
+		from hg_board c , hg_member m
+		where board_No = #value# 
+		and c.member_no = m.member_no
+		order by no
+
+	</select>
+	
+	<delete id="removeboard" parameterClass="int">
+		delete
+		from hg_board
+		where board_no = #value#
+	</delete>
+	
+	<update id="modifyboard" parameterClass="board.BoardVO">
+		update hg_board
+			set
+				board_title		= #title#,
+				board_contents	= #contents#
+		where board_no = #no#
+	</update>
+	
+	<update id="addlike" parameterClass="int" >
+		update hg_board
+			set
+				board_like	= board_like +1
+		where board_no = #value#
+	</update>
+	
+	<update id="addhate" parameterClass="int">
+		update hg_board
+			set
+				board_hate	= board_hate +1
+		where board_no = #value#	
+	</update>
+	
+	<select id="getBoardRange" parameterClass="hashmap" resultClass="board.BoardVO">
+		select no, title, contents, memberNo , memberName, teamNo , photo, "like", hate, regdate
+		from (
+			select row_number() over(order by board_no desc) as num,
+                                b.board_no as no,
+                                b.board_title as title,
+                                b.board_contents as contents,
+                                b.member_no as memberNo,
+                                m.member_name as memberName,
+                                b.team_no as teamNo,
+                                nvl(b.board_photo, 0) as photo,
+                                b.board_like as "like",
+                                b.board_hate as hate,
+                                b.board_date as regdate
+			from hg_board b, hg_member m
+			where b.member_no = m.member_no
+				and b.team_no = #teamNo#
+		)
+		<![CDATA[
+		where num >= #startNo# and num <= #endNo#
+		]]>
+	</select>
+	
+	<select id="getTotalBoardRow" parameterClass="int" resultClass="int">
+		select count(*)
+		from hg_board
+		where team_no = #value#
+		order by board_no asc
+	</select>
+	
+
+	
+</sqlMap>

@@ -1,0 +1,63 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<%@include file="resultDetailInclude.jsp" %>      
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<link rel= "stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" >
+<link rel ="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" >
+<script src= "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" ></script >
+<script src= "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" ></script >
+<script type="text/javascript" src="../jquery/jquery-1.11.3.js"></script>
+<title>update detail result</title>
+</head>
+<body>
+<div class="container">
+<div class="row">
+<div class="panel panel-primary">
+<div class="panel-heading"><h1>경기결과 수정하기</h1></div>
+<div class="panel-body">
+<h3><%=gameDate %></h3>
+<form method="post" action="resultUpdate.jsp?pno=<%=pno %>&no=<%=no %>&teamNo=<%=teamNo %>">
+<table class="table table-striped table-bordered">
+	<tr>
+		<th>팀</th>
+		<th>스코어</th>
+		<th>R</th>
+		<th>H</th>
+		<th>E</th>
+		<th>B</th>
+	</tr>
+	<tr>
+		<td>우리팀</td>
+		<td><%=myRuns %></td>
+		<td><input class="form-control input-sm" type="text" placeholder=".input-sm" name="myruns" value="<%=myRuns %>"></td>
+		<td><input class="form-control input-sm" type="text" placeholder=".input-sm" name="myhits" value="<%=myHits %>"></td>
+		<td><input class="form-control input-sm" type="text" placeholder=".input-sm" name="myerror" value="<%=myError %>"></td>
+		<td><input class="form-control input-sm" type="text" placeholder=".input-sm" name="myballs" value="<%=myBalls %>"></td>
+	</tr>
+	<tr>
+		<td><%=rivalTeam %></td>
+		<td><%=rivalRuns %></td>
+		<td><input class="form-control input-sm" type="text" placeholder=".input-sm" name="rivalruns" value="<%=rivalRuns %>"></td>
+		<td><input class="form-control input-sm" type="text" placeholder=".input-sm" name="rivalhits" value="<%=rivalHits %>"></td>
+		<td><input class="form-control input-sm" type="text" placeholder=".input-sm" name="rivalerror" value="<%=rivalError %>"></td>
+		<td><input class="form-control input-sm" type="text" placeholder=".input-sm" name="rivalballs" value="<%=rivalBalls %>"></td>
+	</tr>
+	
+</table>
+</div>
+<div class="panel-footer" align="right">
+<input class="btn btn-primary btn-xs" type="submit" value="수정" />
+<input class="btn btn-danger btn-xs" type="button" id="cancle" value="취소" onclick="location.href='resultDetail.jsp?pno=<%=pno %>&no=<%=no %>&teamNo=<%=teamNo %>'"/>
+</div>
+
+</div>
+</div>
+</form>
+</div>
+</body>
+</html>

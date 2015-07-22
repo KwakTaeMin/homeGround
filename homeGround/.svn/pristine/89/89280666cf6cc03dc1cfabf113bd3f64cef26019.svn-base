@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="NOTICE">
+
+	<insert id="addNewNotice" parameterClass="notice.NoticeVO">
+		insert into	hg_notice(
+			notice_no,
+			notice_title,
+			notice_contents,
+			member_no,
+			team_no,
+			notice_photo,
+			notice_like,
+			notice_hate,
+			notice_notice_date)
+		values(notice_no_seq.nextval, #title#, #contents#, #memberNo#, #teamNo#, #photo#, #like#, #hate#, sysdate)
+	</insert>
+	
+	<select id="getTotalRow" resultClass="int">
+		select count(*) from hg_notice
+	</select>
+
+	<select id="getNoticeRange" parameterClass="hashmap" resultClass="notice.NoticeVO">
+		select no, title, contents, memberNo , memberName, teamNo , photo, "like", hate, "date"
+		from (
+			select row_number() over(order by notice_no desc) as num,
+			N.notice_no as no,
+			N.notice_title as title,
+			N.notice_contents as contents,
+      		N.MEMBER_NO AS memberNo,
+			M.MEMBER_NAME as memberName,
+			N.team_no as teamNo,
+			nvl(N.notice_photo, 0) as photo,
+			N.notice_like as "like",
+			N.notice_hate as hate,
+			N.notice_notice_date as "date"
+			from hg_notice N, hg_member M
+     		where N.MEMBER_NO = M.MEMBER_NO
+		)
+		where num >= #startNo# and num &lt;= #endNo#
+		<dynamic>
+			<isNotNull property="teamNo">
+			and teamNo = #teamNo#		
+			</isNotNull>
+		</dynamic>
+	</select>
+	
+	<select id="getTitleInfo" parameterClass="int" resultClass="notice.NoticeVO">
+		select
+			notice_no as no,
+			notice_title as title,
+			notice_contents as contents,
+			member_no as memberNo,
+			team_no as teamNo,
+			nvl(notice_photo, 0) as photo,
+			notice_like as "like",
+			notice_hate as hate,
+			notice_notice_date as "date"
+		from hg_notice
+		where notice_no = #value#
+	</select>
+	
+	<update id="getLike" parameterClass="int">
+		update hg_notice set notice_like = notice_like + 1 where notice_no = #value#
+	</update>
+	
+	<update id="getHate" parameterClass="int">
+		update hg_notice set notice_hate = notice_hate + 1 where notice_no = #value#
+	</update>
+	
+	<delete id="deleteNotice" parameterClass="int">
+		delete from hg_notice where notice_no = #value#
+	</delete>
+	
+	<update id="updateNotice" parameterClass="hashmap">
+		update hg_notice 
+		set 
+			notice_title = #title#, 
+			notice_contents = #contents#, 
+			notice_notice_date = sysdate 
+		where notice_no = #no#
+	</update>
+</sqlMap>

@@ -1,0 +1,35 @@
+package member;
+
+import java.util.List;
+import com.ibatis.sqlmap.client.SqlMapClient;
+import comm.IbatisUtil;
+
+public class MemberDAO {
+	
+	public String getMemberNameByMemberNo(int memberNo) throws Exception {
+		SqlMapClient sqlmap = IbatisUtil.getSqlmap();
+		return (String)sqlmap.queryForObject("getMemberNameByMemberNo",memberNo);
+	}
+	
+	public int getAllMemberCountByTeamNo(int teamNo) throws Exception {
+		SqlMapClient sqlmap = IbatisUtil.getSqlmap();
+		return (Integer)sqlmap.queryForObject("getAllMemberCountByTeamNo",teamNo);
+	}
+	
+	// 여기 밑 다 선경가 함
+	public MemberVO getMemberInfoById(String id) throws Exception {
+		SqlMapClient sqlmap = IbatisUtil.getSqlmap();
+		return (MemberVO)sqlmap.queryForObject("getMemberInfoById", id);
+	}
+	
+	public void addMember(MemberVO member) throws Exception {
+		SqlMapClient sqlmap = IbatisUtil.getSqlmap();
+		sqlmap.insert("addMember", member);
+	}
+	
+	public int getTeamNoByNo(int no) throws Exception {
+		SqlMapClient sqlmap = IbatisUtil.getSqlmap();
+		return (Integer)sqlmap.queryForObject("getTeamNoByNo", no);
+	}
+	
+}

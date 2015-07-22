@@ -1,0 +1,6 @@
+@charset "utf-8";
+
+@import url("reset.css"); /* 초기화 */
+@import url("index.css"); /* 메인컨텐츠 */
+@import url("common.css");
+@import url("board.css");

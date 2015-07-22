@@ -1,0 +1,73 @@
+package notice;
+
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import comm.IbatisUtil;
+
+public class NoticeDAO {
+	
+	public void addNewNotice(NoticeVO notice) throws SQLException {
+		
+		SqlMapClient sqlmap = IbatisUtil.getSqlmap();
+		sqlmap.insert("addNewNotice", notice);
+	}
+	
+	public int getTotalRow() throws Exception {
+		
+		SqlMapClient sqlmap = IbatisUtil.getSqlmap();
+		int totalRow = (Integer)sqlmap.queryForObject("getTotalRow");
+				
+		return totalRow;
+	}
+	
+	public List<NoticeVO> getNoticeRange(int start, int end, int teamNo) throws Exception {
+		
+		SqlMapClient sqlmap = IbatisUtil.getSqlmap();
+		HashMap<String, Object> range = new HashMap<String, Object>();
+		range.put("startNo", start);
+		range.put("endNo", end);
+		range.put("teamNo", teamNo);
+		
+		List<NoticeVO> list = sqlmap.queryForList("getNoticeRange", range);
+				
+		return list;
+	}
+	
+	public NoticeVO getTitleInfo(int no) throws Exception {
+		
+		SqlMapClient sqlmap = IbatisUtil.getSqlmap();
+		NoticeVO notice = (NoticeVO)sqlmap.queryForObject("getTitleInfo", no);
+		
+		return notice;
+	}
+	
+	public void getLike(int no) throws Exception {
+		
+		SqlMapClient sqlmap = IbatisUtil.getSqlmap();
+		sqlmap.update("getLike", no);
+	
+	}
+	
+	public void getHate(int no) throws Exception {
+		
+		SqlMapClient sqlmap = IbatisUtil.getSqlmap();
+		sqlmap.update("getHate", no);
+	
+	}
+	
+	public void deleteNotice(int no) throws Exception {
+		
+		SqlMapClient sqlmap = IbatisUtil.getSqlmap();
+		sqlmap.delete("deleteNotice", no);
+	}
+	
+	public void updateNotice(HashMap<String, Object> update) throws Exception {
+		
+		SqlMapClient sqlmap = IbatisUtil.getSqlmap();
+		sqlmap.update("updateNotice", update);
+	}
+}

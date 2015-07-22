@@ -1,0 +1,43 @@
+package team;
+
+import java.util.HashMap;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import comm.IbatisUtil;
+
+public class TeamDAO {
+	
+	//태민
+	
+	public String getTeamCoachName(int coachNo) throws Exception {
+		SqlMapClient sqlmap = IbatisUtil.getSqlmap();
+		return (String)sqlmap.queryForObject("getTeamCoachName",coachNo);
+	}
+	
+	public TeamVO getTeamByNo(int memberNo) throws Exception {		
+		SqlMapClient sqlmap = IbatisUtil.getSqlmap();
+		return (TeamVO)sqlmap.queryForObject("getTeamByNo",memberNo);				
+	}
+	
+	//선경
+	public String getTeamNameByName(String name) throws Exception {
+		SqlMapClient sqlmap = IbatisUtil.getSqlmap();
+		return (String) sqlmap.queryForObject("getTeamNameByName", name);
+	}
+	
+	public void addTeam(TeamVO team) throws Exception {
+		SqlMapClient sqlmap = IbatisUtil.getSqlmap();
+		sqlmap.insert("addTeam", team);
+		
+		team.setNo(getTeamNoByName(team.getName()));
+		
+		sqlmap.update("updateMemberTeamNo", team);
+	}
+	
+	public int getTeamNoByName(String name) throws Exception {
+		SqlMapClient sqlmap = IbatisUtil.getSqlmap();
+		return (Integer) sqlmap.queryForObject("getTeamNoByName", name);
+	}
+	
+}
